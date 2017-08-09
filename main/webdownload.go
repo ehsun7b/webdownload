@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/ehsun7b/webdownload/downloader"
 	"github.com/ehsun7b/webdownload/save"
@@ -10,8 +11,27 @@ import (
 )
 
 func main() {
-	downloader := downloader.SimpleDownloader{URL: "http://www.google.com"}
-	content, err := downloader.Download()
+	args := os.Args[1:]
+	file := ""
+	url := "S"
+
+	if len(args) > 0 {
+		url = args[0]
+	} else {
+		fmt.Println("Enter the URL as the first argument")
+		os.Exit(0)
+	}
+
+	if len(args) > 1 {
+		file = args[1]
+	}
+
+	downloader := downloader.SimpleDownloader{URL: url}
+	content, file2, err := downloader.Download()
+
+	if file == "" {
+		file = file2
+	}
 
 	if err != nil {
 		fmt.Println("Error")
@@ -19,7 +39,7 @@ func main() {
 	} else {
 		//s := string(content[:])
 		saver := new(save.FileSaver)
-		err := saver.Save(content, "google.html")
+		err := saver.Save(content, file)
 
 		if err != nil {
 			panic(err)

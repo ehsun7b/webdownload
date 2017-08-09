@@ -5,5 +5,5 @@ package downloader
 
 // Downloader struct to download a url
 type Downloader interface {
-	Download() []byte
+	Download() ([]byte, string, error)
 }
