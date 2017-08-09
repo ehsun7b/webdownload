@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/ehsun7b/webdownload/downloader"
+	"github.com/ehsun7b/webdownload/save"
 	//"io/ioutil"
 	//"net/http"
 )
@@ -16,7 +17,16 @@ func main() {
 		fmt.Println("Error")
 		fmt.Println(err)
 	} else {
-		s := string(content[:])
-		fmt.Println(s)
+		//s := string(content[:])
+		saver := new(save.FileSaver)
+		err := saver.Save(content, "google.html")
+
+		if err != nil {
+			panic(err)
+		}
 	}
+}
+
+func test(saver save.Saver) {
+	fmt.Println(saver)
 }
